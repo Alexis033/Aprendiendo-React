@@ -19,7 +19,7 @@ export function TwitterFollowCard ({formatUserName, userName , children, initial
           src={`https://unavatar.io/${userName}`} />
         <div className="tw-followCard-info">
           <strong>{children}</strong>
-          <span className="tw-followCard-infoUserName">{formatUserName(userName)}</span>
+          <span className="tw-followCard-infoUserName">{formatUserName}</span>
         </div>
       </header>
 
