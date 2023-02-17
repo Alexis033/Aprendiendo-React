@@ -5,18 +5,20 @@ import {TURNS, WINNER} from "./constants.js"
 import {checkWinner} from "./logic/board"
 import { WinnerModal } from "./components/WinnerModal.jsx"
 import { ButtonRestart } from "./components/BurronRestartGame.jsx"
+import { getInitialBoard, getInitialTurn, removeGameToStorage, saveGameToStorage } from "./logic/storage/index.js"
 
 function App() {
   const initalBoard = Array(9).fill(null);
-
-  const [board, setBoard] = useState(initalBoard);
-  const [turn, setTurn] = useState(TURNS.X);
+  
+  const [board, setBoard] = useState(getInitialBoard(initalBoard));
+  const [turn, setTurn] = useState(getInitialTurn(TURNS.X));
   const [winner, setWinner] = useState(WINNER.EMPTY);
 
   const resetGame = () => {
     setBoard(initalBoard);
     setTurn(TURNS.X);
     setWinner(WINNER.EMPTY);
+    removeGameToStorage()
   };
 
   const updateBoard = (index) => {
@@ -25,13 +27,17 @@ function App() {
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
+    setTurn(newTurn)
+
+    saveGameToStorage(newBoard, newTurn)
+
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
       confetti()
-      setWinner(newWinner);
+      setWinner(newWinner)
+      removeGameToStorage()
     }else if(!newBoard.includes(null)) setWinner(WINNER.TIE)
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
-    setTurn(newTurn)
   }
 
   return (
