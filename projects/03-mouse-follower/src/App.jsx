@@ -1,8 +1,15 @@
+import { useState } from 'react'
+import { FollowMouse } from './components/FollowMouse'
+
 function App() {
+  const [mounted, setMounted] = useState(true)
   return (
-    <div>
-      <h1> Proyecto 3</h1>
-    </div>
+    <main>
+      {/* <button onClick={() => setMounted(!mounted)}>
+        Toggle mounted followMouse component
+      </button> */}
+      {mounted && <FollowMouse />}
+    </main>
   )
 }
 
