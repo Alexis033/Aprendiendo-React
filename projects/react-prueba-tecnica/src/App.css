@@ -1,0 +1,14 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 400px;
+  font-family: system-ui;
+  word-break: break-all;
+}
+
+main img {
+  max-width: 400px;
+}
