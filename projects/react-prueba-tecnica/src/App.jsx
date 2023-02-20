@@ -1,37 +1,25 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
-const CAT_ENDPOINT_RANDOM_FACT = `https://catfact.ninja/fact`;
-// const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${}`;
+import { getRandomFact } from "./services/facts";
+import { useRandomCatImage } from "./hooks/useRandomCatImage";
 
 function App() {
   const [fact, setFact] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const { imageUrl } = useRandomCatImage({ fact });
 
   useEffect(() => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then((res) => res.json())
-      .then((data) => {
-        const { fact } = data;
-        setFact(fact);
-        const fiveWords = fact.split(" ", 5).join(" ");
-        setImageUrl(`https://cataas.com/cat/says/${fiveWords}`);
-
-        //   // fetch(`https://cataas.com/cat/says/${fiveWords}`)
-        //   //   .then((res) => res.json())
-        //   //   .then((blob) => {
-        //   //     console.log(blob);
-
-        //   //     const imageUrl = URL.createObjectURL(blob);
-        //   //     setImageUrl(imageUrl);
-        //   //   });
-      })
-      .catch((err) => console.log(err));
+    getRandomFact().then((newFact) => setFact(newFact));
   }, []);
 
+  const handleClick = async () => {
+    const newFact = await getRandomFact();
+    setFact(newFact);
+  };
   return (
     <main>
       <h1>Cat app</h1>
+      <button onClick={handleClick}>New fact</button>
+
       {fact && <p>{fact}</p>}
       {imageUrl && (
         <img
