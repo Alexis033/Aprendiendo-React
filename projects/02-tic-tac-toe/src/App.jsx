@@ -8,22 +8,32 @@ import { ButtonRestart } from './components/BurronRestartGame.jsx'
 import {
   getInitialBoard,
   getInitialTurn,
+  getInitialScore,
   removeGameToStorage,
-  saveGameToStorage
+  saveGameToStorage,
+  saveGameScoreToStorage,
+  removeGameScoreToStorage
 } from './logic/storage/index.js'
 
 function App() {
   const initalBoard = Array(9).fill(null)
+  const initalScore = [0, 0]
 
   const [board, setBoard] = useState(getInitialBoard(initalBoard))
   const [turn, setTurn] = useState(getInitialTurn(TURNS.X))
   const [winner, setWinner] = useState(WINNER.EMPTY)
+  const [score, setScore] = useState(getInitialScore(initalScore))
 
   const resetGame = () => {
     setBoard(initalBoard)
     setTurn(TURNS.X)
     setWinner(WINNER.EMPTY)
     removeGameToStorage()
+  }
+
+  const resetScore = () => {
+    setScore(initalScore)
+    removeGameScoreToStorage()
   }
 
   const updateBoard = (index) => {
@@ -41,6 +51,17 @@ function App() {
     if (newWinner) {
       confetti()
       setWinner(newWinner)
+
+      let newScore = [...score]
+      if (newWinner === WINNER.X) {
+        newScore[0] += 1
+        setScore(newScore)
+        saveGameScoreToStorage(newScore)
+      } else if (newWinner === WINNER.O) {
+        newScore[1] += 1
+        setScore(newScore)
+        saveGameScoreToStorage(newScore)
+      }
       removeGameToStorage()
     } else if (!newBoard.includes(null)) setWinner(WINNER.TIE)
   }
@@ -58,11 +79,21 @@ function App() {
         })}
       </section>
       <section className='turn'>
-        <Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
-        <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
+        <Square className='X' isSelected={turn === TURNS.X}>
+          {TURNS.X}
+        </Square>
+        <Square className='O' isSelected={turn === TURNS.O}>
+          {TURNS.O}
+        </Square>
+      </section>
+      <section>
+        {score[0]} &nbsp;|&nbsp; {score[1]}
       </section>
       <WinnerModal winner={winner} winnerList={WINNER} />
       <ButtonRestart functionAction={resetGame}>Nueva Partida</ButtonRestart>
+      <ButtonRestart functionAction={resetScore}>
+        Reiniciar Marcador
+      </ButtonRestart>
     </main>
   )
 }
