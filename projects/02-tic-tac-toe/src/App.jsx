@@ -2,7 +2,7 @@ import { useState } from 'react'
 import confetti from 'canvas-confetti'
 import { Square } from './components/Square.jsx'
 import { TURNS, WINNER } from './constants.js'
-import { checkWinner } from './logic/board'
+import { checkWinner, getRandomPosition } from './logic/board'
 import { WinnerModal } from './components/WinnerModal.jsx'
 import { ButtonRestart } from './components/BurronRestartGame.jsx'
 import {
@@ -23,6 +23,7 @@ function App() {
   const [turn, setTurn] = useState(getInitialTurn(TURNS.X))
   const [winner, setWinner] = useState(WINNER.EMPTY)
   const [score, setScore] = useState(getInitialScore(initalScore))
+  const [modeOnePlayer, setModeOnePlayer] = useState(true)
 
   const resetGame = () => {
     setBoard(initalBoard)
@@ -38,7 +39,6 @@ function App() {
 
   const updateBoard = (index) => {
     if (board[index] || winner) return
-
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
@@ -49,8 +49,8 @@ function App() {
 
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
-      confetti()
       setWinner(newWinner)
+      confetti()
 
       let newScore = [...score]
       if (newWinner === WINNER.X) {
@@ -66,6 +66,12 @@ function App() {
     } else if (!newBoard.includes(null)) setWinner(WINNER.TIE)
   }
 
+  if (turn === TURNS.O && modeOnePlayer) {
+    if (board.includes(null)) {
+      const index = getRandomPosition(board)
+      updateBoard(index)
+    }
+  }
   return (
     <main className='board'>
       <h1>Tic Tac Toe</h1>
@@ -90,10 +96,15 @@ function App() {
         {score[0]} &nbsp;|&nbsp; {score[1]}
       </section>
       <WinnerModal winner={winner} winnerList={WINNER} />
-      <ButtonRestart functionAction={resetGame}>Nueva Partida</ButtonRestart>
-      <ButtonRestart functionAction={resetScore}>
-        Reiniciar Marcador
-      </ButtonRestart>
+      <section className='btn-container'>
+        <ButtonRestart functionAction={resetGame}>Nueva Partida</ButtonRestart>
+        <ButtonRestart functionAction={() => setModeOnePlayer((prev) => !prev)}>
+          {modeOnePlayer ? 'Two players' : 'One player'}
+        </ButtonRestart>
+        <ButtonRestart functionAction={resetScore}>
+          Reiniciar Marcador
+        </ButtonRestart>
+      </section>
     </main>
   )
 }

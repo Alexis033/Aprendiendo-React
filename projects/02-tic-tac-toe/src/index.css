@@ -48,6 +48,7 @@ body {
 .board button {
   padding: 8px 12px;
   margin-top: 25px;
+  margin-right: 10px;
   background: transparent;
   border: 2px solid #eee;
   color: #eee;
@@ -57,7 +58,6 @@ body {
   font-weight: bold;
   cursor: pointer;
   position: relative;
-  display: block;
 }
 
 .board button:hover {
@@ -101,11 +101,11 @@ body {
   left: 0;
   display: grid;
   place-items: center;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #000000ba;
 }
 
 .winner .text {
-  background: #111;
+  background: #11111100;
   height: 300px;
   width: 320px;
   border: 2px solid #eee;
