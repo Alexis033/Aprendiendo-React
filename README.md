@@ -16,6 +16,16 @@ Cada proyecto se encuentra en su propia carpeta.
 - React Router para la navegación entre páginas
 - ESLint y Prettier para el formateo de código y la detección de errores
 
+## Requisitos
+- Node.js
+- Vite
+
+## Probar proyectos
+1. Clonar el repositorio
+2. En la consola ir a la carpeta del proyecto deseado
+3. Ejecutar npm install
+4. Ejecutar npm run dev
+
 ## Contribución
 
 Si deseas contribuir a este monorepositorio, puedes hacerlo mediante la creación de un pull request con las mejoras que desees proponer. Siempre estamos abiertos a nuevas ideas y sugerencias para mejorar los proyectos incluidos en este monorepositorio.
