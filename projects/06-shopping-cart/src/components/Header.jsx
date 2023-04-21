@@ -1,10 +1,10 @@
 import { Filters } from './Filters.jsx'
 
-export function Header() {
+export function Header({ setFilters }) {
   return (
     <header>
       <h1>Chopping cart 🛒</h1>
-      <Filters />
+      <Filters setFilters={setFilters} />
     </header>
   )
 }

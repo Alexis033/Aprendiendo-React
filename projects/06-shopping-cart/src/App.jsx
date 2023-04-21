@@ -6,7 +6,7 @@ function App() {
   const [products, setProducts] = useState([])
   const [filters, setFilters] = useState({
     category: 'all',
-    maxPrice: 3000
+    maxPrice: 30
   })
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header setFilters={setFilters} />
       {products.length ? (
         <ListProducts products={filteredProducts} />
       ) : (
