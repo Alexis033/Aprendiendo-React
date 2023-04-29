@@ -23,4 +23,8 @@ body {
   .filters {
     position: relative;
   }
+
+  .clear-completed {
+    margin-block: 1rem;
+  }
 }
